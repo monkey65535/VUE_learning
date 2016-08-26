@@ -15,19 +15,87 @@
 	<div class="col-md-6 col-md-offset-3">
 		<h1>Vue Demo</h1>
 		<div id="app">
-			<div>{{*message}}</div>
-			<input type="text" v-model="message">
+			<table id="tt" class="table">
+				<thead>
+				<tr>
+					<td class="text-center">ID</td>
+					<td class="text-center">书名</td>
+					<td class="text-center">作者</td>
+					<td class="text-center">售价</td>
+					<td class="text-center">操作</td>
+				</tr>
+				</thead>
+				<tr v-for="book in books">
+					<td class="text-center">{{book.id}}</td>
+					<td class="text-center">{{book.name}}</td>
+					<td class="text-center">{{book.author}}</td>
+					<td class="text-center">{{book.price}}</td>
+					<td class="text-center" v-on:click="deleteBook(book)" style="cursor: pointer">删除</td>
+				</tr>
+			</table>
+			<div id="add-book">
+				<legend>添加书籍</legend>
+				<div class="form-group">
+					<label for="">书名</label>
+					<input type="text" class="form-control" v-model="book.name">
+				</div>
+				<div class="form-group">
+					<label for="">作者</label>
+					<input type="text" class="form-control" v-model="book.author">
+				</div>
+				<div class="form-group">
+					<label for="">价格</label>
+					<input type="text" class="form-control" v-model="book.price">
+				</div>
+				<button class="btn btn-primary btn-block" v-on:click="addBook()">添加</button>
+			</div>
 		</div>
 	</div>
 </div>
 
 <script>
-	var vue  = new Vue({
+	var bookData = {
+		book: {
+			id: 0,
+			author: '',
+			name: '',
+			price: ''
+		},
+		books: [{
+			id: 1,
+			author: '曹雪芹',
+			name: '红楼梦',
+			price: 32.0
+		}, {
+			id: 2,
+			author: '施耐庵',
+			name: '水浒传',
+			price: 30.0
+		}, {
+			id: '3',
+			author: '罗贯中',
+			name: '三国演义',
+			price: 24.0
+		}, {
+			id: 4,
+			author: '吴承恩',
+			name: '西游记',
+			price: 20.0
+		}]
+	}
+	new Vue({
 		el:"#app",
-		data:{
-			message:"hello Vue!"
+		data:bookData,
+		methods:{
+			addBook:function () {
+				this.book.id = this.books.length + 1;
+				this.books.push(this.book);
+				this.book = "";
+			},
+			deleteBook:function(book){
+				this.books.$remove(book);
+			}
 		}
-
 	});
 </script>
 </body>
