@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<meta name="renderer" content="webkit">
+	<meta name="force-rendering" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title>1.vue</title>
+	<script src="src/js/vue.js"></script>
+</head>
+<body>
+<div id="app1">
+	{{message}}
+</div>
+<div id="app2">
+	<p>
+		{{message}}
+	</p>
+	<input type="text" v-model="message">
+</div>
+<div id="app3">
+	<ul>
+		<li v-for="todo in todos">
+			{{todo.text}}
+		</li>
+	</ul>
+</div>
+<div id="app4">
+	<p>{{message}}</p>
+	<button v-on:click="re">Reverse Message</button>
+</div>
+
+
+<div id="app-all">
+	<input v-model="newTodo" v-on:keyup.enter="addTodo">
+	<ul>
+		<li v-for="todo in todos">
+			<span>{{ todo.text }}</span>
+			<button v-on:click="removeTodo($index)">X</button>
+		</li>
+	</ul>
+</div>
+<script>
+	new Vue({
+		el:"#app1",
+		data:{
+			message:"hello world!"
+		}
+	});
+	var vue2 = new Vue({
+		el:"#app2",
+		data:{
+			message:"hell0"
+		}
+	});
+	var vue3 = new Vue({
+		el:"#app3",
+		data:{
+			todos:[
+				{text:"Learning"},
+				{text:"VUE"},
+				{text:".js"}
+			]
+		}
+	});
+	var vue4 = new Vue({
+		el:"#app4",
+		data:{
+			message:"hello Vue.js"
+		},
+		methods:{
+			re:function(){
+				this.message = this.message.split("").reverse().join("");
+			}
+		}
+	});
+
+	var vue5= new Vue({
+		el:"#app-all",
+		data:{
+			todos:[
+				{text:"add some todos"}
+			]
+		},
+		methods:{
+			addTodo:function () {
+				var text = this.newTodo.trim();
+				if(text){
+					this.todos.push({text:text});
+					this.newTodo= "";
+				}
+			},
+			removeTodo:function(){
+				this.todos.split(index,1)
+			}
+		}
+	})
+</script>
+</body>
+</html>
