@@ -26,11 +26,12 @@
 				</tr>
 				</thead>
 				<tr v-for="book in books">
-					<td class="text-center">{{book.id}}</td>
+					<td class="text-center">{{book.id|num}}</td>
 					<td class="text-center">{{book.name}}</td>
 					<td class="text-center">{{book.author}}</td>
 					<td class="text-center">{{book.price}}</td>
-					<td class="text-center" v-on:click="deleteBook(book)" style="cursor: pointer">删除</td>
+					<td class="btn btn-danger text-center" v-if="book.id%2==0" v-on:click="deleteBook(book)" style="cursor: pointer">删除</td>
+					<td class="btn btn-default text-center" v-else v-on:click="deleteBook(book)" style="cursor: pointer">删除</td>
 				</tr>
 			</table>
 			<div id="add-book">
@@ -55,6 +56,7 @@
 
 <script>
 	var bookData = {
+		//绑定数据
 		book: {
 			id: 0,
 			author: '',
@@ -83,10 +85,16 @@
 			price: 20.0
 		}]
 	}
+	//自建过滤器
+	Vue.filter("num",function (value) {
+		return "N0." + value;
+	})
+	//新的Vue实例
 	new Vue({
 		el:"#app",
 		data:bookData,
 		methods:{
+			//绑定事件
 			addBook:function () {
 				this.book.id = this.books.length + 1;
 				this.books.push(this.book);
