@@ -17,6 +17,7 @@
     <br>
     <input type="text" v-model="data.message">
     <br>
+
     <!--checkbox-->
     <br>
     <input type="checkbox" id="checkbox" v-model="data.checked">
@@ -31,6 +32,7 @@
     <br>
     <span>Checked names: {{ data.checkNames | json }}</span>
     <br>
+
     <!--radio-->
     <input type="radio" id="one" value="One" v-model="data.packer">
     <label for="one">One</label>
@@ -39,6 +41,7 @@
     <label for="two">Two</label>
     <br>
     <span>Picked: {{ data.packer }}</span>
+
     <!--select 单选-->
     <select v-model="data.sel">
         <option selected>A</option>
@@ -46,7 +49,25 @@
         <option>C</option>
     </select>
     <span>Selected: {{ data.sel }}</span>
+
     <!--select 多选-->
+    <br>
+    <select v-model="data.selMul" multiple="multiple">
+        <option selected>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <br>
+    <span>Selected: {{ data.selMul | json }}</span>
+    <br>
+
+    <!--动态选项，使用v-for渲染-->
+    <select v-model="selected">
+        <option v-for="option in options" v-bind:value="option.value">
+            {{ option.text }}
+        </option>
+    </select>
+    <span>Selected: {{ data.moreSel }}</span>
 </div>
 
 
@@ -59,8 +80,15 @@
                 checked:null,
                 checkNames:[],
                 packer:"",
-                sel:''
-            }
+                sel:'',
+                selMul:[],
+                moreSel:[]
+            },
+            options:[
+                {text:"1",value:'111'}
+                {text:"2",value:'222'}
+                {text:"3",value:'333'}
+            ]
         }
     });
 </script>
