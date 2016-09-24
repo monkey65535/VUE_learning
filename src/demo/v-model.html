@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <script src="../js/vue.js"></script>
+    <title>v-model</title>
+</head>
+<body>
+<div id="inp">
+    <!--text-->
+    <span>name:{{ data.message }}</span>
+    <br>
+    <input type="text" v-model="data.message">
+    <br>
+    <!--checkbox-->
+    <br>
+    <input type="checkbox" id="checkbox" v-model="data.checked">
+    <label for="checkbox">{{ data.checked }}</label>
+    <br>
+    <input type="checkbox" id="jack" value="Jack" v-model="data.checkNames">
+    <label for="jack">Jack</label>
+    <input type="checkbox" id="john" value="John" v-model="data.checkNames">
+    <label for="john">John</label>
+    <input type="checkbox" id="mike" value="Mike" v-model="data.checkNames">
+    <label for="mike">Mike</label>
+    <br>
+    <span>Checked names: {{ data.checkNames | json }}</span>
+    <br>
+    <!--radio-->
+    <input type="radio" id="one" value="One" v-model="data.packer">
+    <label for="one">One</label>
+    <br>
+    <input type="radio" id="two" value="Two" v-model="data.packer">
+    <label for="two">Two</label>
+    <br>
+    <span>Picked: {{ data.packer }}</span>
+    <!--select 单选-->
+    <select v-model="data.sel">
+        <option selected>A</option>
+        <option>B</option>
+        <option>C</option>
+    </select>
+    <span>Selected: {{ data.sel }}</span>
+    <!--select 多选-->
+</div>
+
+
+<script>
+    var vue1 = new Vue({
+        el:'#inp',
+        data:{
+            data:{
+                message:'hello Vue!',
+                checked:null,
+                checkNames:[],
+                packer:"",
+                sel:''
+            }
+        }
+    });
+</script>
+</body>
+</html>

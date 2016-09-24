@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <script src="../js/vue.js"></script>
+    <title>v-show</title>
+</head>
+<body>
+<div id="dom">
+    <h1 v-show="ok">我是对的</h1>
+    <h2 v-show="!ok">我是错的</h2>
+</div>
+<script>
+var vue = new Vue({
+    el:'#dom',
+    data:{
+        ok:true,
+        end:false
+    }
+})
+</script>
+</body>
+</html>
