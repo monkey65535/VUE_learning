@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+    <script src="../js/vue.js"></script>
+    <title>v-for</title>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="todo in todos" data-index="{{$index}}">{{$index}} + {{todo.text}}</li>
+    </ul>
+    <template v-for="temp in temps">
+        <input type="text" value="{{$index}} + {{temp.value}}">
+    </template>
+    <template v-for="value in objecs">
+        <p>{{$key}} + {{$index}} + {{value}}</p>
+    </template>
+</div>
+<script>
+    var vue = new Vue({
+        el:'#app',
+        data:{
+            todos:[
+                {text:'hello'},
+                {text:'VUE'},
+                {text:'and'},
+                {text:'v-for'}
+            ],
+            temps:[
+                {value:'1'},
+                {value:'2'},
+                {value:'3'},
+                {value:'7'}
+            ],
+            objecs:{
+                name:"daniu",
+                sex:'girl',
+                age:'30'
+            }
+        }
+    });
+    vue.temps.$set(0,{value:"110"});
+
+    var te = vue.todos[0]
+    vue.todos.$remove(te);
+    vue.temps = vue.temps.filter(function(temp){
+        return temp.value.match(/7/);
+    })
+</script>
+</body>
+</html>
