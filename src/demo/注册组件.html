@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>Title</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ui-button></ui-button>
+    <ui-button></ui-button>
+    <ui-button></ui-button>
+</div>
+
+<script>
+    /*var uiButton = {
+        template:'<button class="ui-button"> a button</button>'
+    };*/
+
+    var dataSource = {
+
+    };
+    Vue.component('ui-button',{
+        template:'<button>this is a component button</button>'
+    });
+    var vm = new Vue({
+        el:'#app',
+        data:dataSource
+    });
+</script>
+</body>
+</html>
