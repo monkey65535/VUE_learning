@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>组件中的data</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="demo">
+    <s-button></s-button>
+    <s-button></s-button>
+    <s-button></s-button>
+</div>
+
+<script>
+    var data = {count:0};
+    Vue.component('s-button',{
+        template:'<button v-on:click="count++">{{count}}</button>',
+        data:function(){
+            return {
+                count:0
+            }
+        }
+    });
+    new Vue({
+        el:'#demo'
+    });
+</script>
+</body>
+</html>
