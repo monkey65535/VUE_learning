@@ -5,9 +5,38 @@
     <meta name="renderer" content="webkit">
     <meta name="force-rendering" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-    <title>$Title$</title>
+    <title>组件间的通信</title>
+    <script src="../js/vue.js"></script>
 </head>
 <body>
-$END$
+    <div id="app2">
+       <!-- 可以使用v-bind方法将组件的属性绑定到父组件的数据，这样，当父组件的数据发生变化的时候，就会传递给子组件-->
+        {{message}}
+        <br>
+        这里是子组件1
+        <child-com v-bind:message="message"></child-com>
+        这里是子组件2
+        <child-com v-bind:options-obj="optionsObj"></child-com>
+        这里是子组件3
+        <child-com></child-com>
+    </div>
+
+    <script>
+        Vue.component('child-com',{
+            //声明props
+            props:["message",'optionsObj'],
+            //设置模板
+            template:'<p> hello 父组件信息{{message}} + 子组件的信息{{optionsObj}} </p>'
+        });
+        new Vue({
+           el:'#app2',
+            data:{
+               message:'HELLO VUE',
+                "optionsObj":[1,2,3]
+            }
+        });
+
+
+    </script>
 </body>
 </html>
