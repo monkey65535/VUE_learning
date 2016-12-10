@@ -18,15 +18,15 @@
     <form role='form'>
         <div class="form-group">
             <label for="username">用户名</label>
-            <input type="text" name="" value="" id="username" class="form-control" placeholder="用户名">
+            <input type="text" name="" value="" id="username" class="form-control" placeholder="用户名" v-model="username">
         </div>
         <div class="form-group">
             <label for="age">年龄</label>
-            <input type="text" name="" value="" id="age" class="form-control" placeholder="年龄">
+            <input type="text" name="" value="" id="age" class="form-control" placeholder="年龄" v-model="age">
         </div>
         <div class="form-group">
-            <input type="button" name="" value="添加"  class=" btn btn-primary" v-on:click="addMessage()">
-            <input type="button" name="" value="重置"  class="btn btn-danger">
+            <input type="button" name="" value="添加" class=" btn btn-primary" v-on:click="addMessage()">
+            <input type="button" name="" value="重置" class="btn btn-danger" v-on:click="removeInput()">
         </div>
     </form>
     <hr>
@@ -44,13 +44,13 @@
                 <td>{{item.name}}</td>
                 <td>{{item.age}}</td>
                 <td>
-                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#layer">删除</button>
+                    <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#layer" v-on:click="nowIndex = $index">删除</button>
                 </td>
             </tr>
         </template>
         <tr class="text-right" v-show="myData.length != 0">
             <td colspan="4">
-                <button class="btn btn-danger text-right btn-sm">删除全部</button>
+                <button class="btn btn-danger text-right btn-sm" data-toggle="modal" data-target="#layer" v-on:click="nowIndex = -404">删除全部</button>
             </td>
         </tr>
         <tr class="text-center" v-show="myData.length == 0">
@@ -59,40 +59,66 @@
             </td>
         </tr>
     </table>
-</div>
 
-<!--模态框-->
 
-<div class="modal fade" role="dialog" id="layer">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button class="close" data-dismiss="modal">
-                    <span class="">&times;</span>
-                </button>
-                <h4 class="modal-title">确认删除么？</h4>
-            </div>
-            <div class="modal-body text-right">
-                <button class="btn btn-primary btn-sm" data-dismiss="modal">取消</button>
-                <button class="btn btn-danger btn-sm" data-dismiss="modal">确认</button>
+    <!--模态框-->
+
+    <div class="modal fade" role="dialog" id="layer" data-index = {{nowIndex}}>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal">
+                        <span class="">&times;</span>
+                    </button>
+                    <h4 class="modal-title">确认删除么？</h4>
+                </div>
+                <div class="modal-body text-right">
+                    <button class="btn btn-primary btn-sm" data-dismiss="modal">取消</button>
+                    <button class="btn btn-danger btn-sm" data-dismiss="modal" v-on:click="removeMydata(nowIndex)">确认</button>
+                </div>
             </div>
         </div>
     </div>
+
+
 </div>
 
+
+
 <script>
-var vm = new Vue({
-    el:'#box',
-    data:{
-        myData:[
-        ]
-    },
-    methods:{
-        addMessage:function(){
-            alert(1);
+    var vm = new Vue({
+        el: '#box',
+        data: {
+            myData: [],
+            username: '',
+            age: '',
+            nowIndex:-10000
+        },
+        methods: {
+            addMessage: function () {
+                this.myData.push({
+                    name: this.username,
+                    age: this.age
+                });
+                clearInput(this);
+            },
+            removeInput: function () {
+                clearInput(this);
+            },
+            removeMydata:function(nowIndex){
+                if(nowIndex === -404){
+                    this.myData = [];
+                }else {
+                    this.myData.splice(nowIndex,1);
+                }
+            }
         }
+    });
+
+    function clearInput(__this) {
+        __this.username = "";
+        __this.age = "";
     }
-})
 </script>
 </body>
 
