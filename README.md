@@ -289,10 +289,424 @@ var vue = new Vue({
     });
 </script>
 ```
-多选（绑定到一个数组）：
-```
+
+## 1.属性计算
+vue中可以在html的插值中放入表达式 
 
 ```
+<div id="demo">
+	<p>message:{{ message.split("").reverse().join("") }}</p>
+</div>
+<script>
+	var vm = new Vue({
+		el:'#demo',
+		data:{
+			message:'hello Vue!'
+		}
+	});
+</script>
+```
+在模板中放入表达式非常便利，模板是为了描述视图的结构。但是在模板中放入太多逻辑，使得模板过重难以维护。  
+
+为了便于维护，我们会把复杂的逻辑放入属性计算中，也就是Vue实例的选项参数中的`computed`属性中。  
+```
+<div id="demo">
+	<p>{{rev}}</p>
+</div>
+<script>
+	var vm = new Vue({
+		el:'#demo',
+		data:{
+			message:'hello Vue!'
+		},
+		computed:{
+			rev:function(){
+				return this.message.split('').reverse().join("");
+			}
+		}
+	});
+</script>
+```
+对vue实例中的message修改，同时会在页面上反馈出来
+```
+vm.message = "这个是一个date!";
+```
+除了计算属性可以达到模板与逻辑分离，methods也可以实现  
+```
+<div id="demo">
+	<p>{{rev}}</p>
+	<p>{{revs()}}</p>
+	<p>{{revs}}</p>
+</div>
+<script>
+	var vm = new Vue({
+		el:'#demo',
+		data:{
+			message:'hello Vue!'
+		},
+		computed:{
+			rev:function(){
+				return this.message.split('').reverse().join("");
+			}
+		},
+		methods:{
+			revs:function(){
+				return this.message.split('').reverse().join('');
+			}
+		}
+	});
+	
+	vm.message = "这是一个date!";
+</script>
+```
+但是`methods`的计算和`computed`的计算有一些区别，他们之间最大的区别在于计算缓存。  
+
+ - 计算缓存基于它依赖的数据，计算属性只有在它所依赖的数据发生改变改回重新执行得到值。如果数据不发生改变，多次访问计算属性，只会返回之前计算后的值，不会调用函数。  
+ - 使用methods计算，每一次运算都会调用一次函数。  
+
+所以：
+**在计算大量数据的时候，推荐使用`computed` 而不希望使用缓存的时候，推荐使用`methods`**  
+
+除了使用计算属性和methods之外，还可以讲逻辑放在watch中，观察数据改变做出相应的操作
+```
+<div id="demo">
+	<input type="text"	v-model="que" />
+	<p>{{que}}</p>
+	<p>{{ans}}</p>
+</div>
+<script>
+	var vm = new Vue({
+		el:'#demo',
+		data:{
+			que:"",
+			ans:'this is ans'
+		},
+		watch:{
+			que:function(value){
+				this.ans = "que has chenged"
+			}
+		}
+	})
+```
+在这个例子中，当文本框输入内容之后，下方文本会变成*que has chenged*  
+## 2.class与style绑定
+> class和style可以使用 v-bind来绑定到元素上。
+  v-bind在处理的时候只需要计算出表达式最终的字符串。
+  v-bind:class 不止是可以用字符串，也可以使用对象或数组
+  
+### 2.1 class的绑定
+```
+<div id="demo">
+	<p :class="className1">测试className为字符串</p>
+	<p :class="{blue:isActive}">测试className为对象，如果isActive为true则添加</p>
+	<p class="fontSize" :class="{red:isActive}">可以和普通的class特性共存</p>
+	<p :class="classObj">绑定数据里的对象</p>
+	<p :class="addClassObj">绑定计算属性，功能更加强大</p>
+	<p :class='[isActive ? "red" : "","fontSize"]'>绑定数据里的数组,可以写三目表达式</p>
+	<p :class='[{blue:isActive},"fontSize"]'>绑定数据里的数组,可使用对象形式代替三目表达式</p>
+</div>
+
+<script>
+	var vm = new Vue({
+		el:'#demo',
+		data:{
+			className1:'red',
+			isActive:true,
+			classObj:{
+				red:false,
+				fontSize:true
+			}
+		},
+		computed:{
+			addClassObj:function(){
+				return {
+					blue:this.isActive,
+					fontSize:true
+				}
+			}
+		}
+	});
+</script>
+```
+### 2.2 style的绑定
+`v-bind`在处理的时候只需要计算出表达式最终的字符串
+`v-bind:style`是一个对象的形式  
+
+```
+<div id="demo">
+	<p v-bind:style="{color:'red','font-size':'50px'}">绑定对象字符串的形式</p>
+	<p v-bind:style="styleObj">绑定数据中的对象</p>
+	<p v-bind:style="[styleObj1,styleObj2]">绑定数组</p>
+	<p v-bind:style="addStyleObj">使用计算属性</p>
+
+</div>
+<script>
+var vm = new Vue({
+			el:"#demo",
+			data:{
+				styleObj:{color:'blue','font-size':'30px'},
+				styleObj1:{
+					'font-size': "50px"
+				},
+				styleObj2:{
+					border: '1px solid #000'
+				}
+			},
+			computed:{
+				addStyleObj:function (){
+					//可以在这里做一系列操作
+					return {
+						color:'red',
+						border: '1px solid #000'
+					}	
+				}
+			}
+		});
+</script>
+```
 
 
+# Vue-定义组件
+
+标签（空格分隔）： Vue
+
+---
+>组件可以扩展html元素，封装可重用的代码，是自定义元素，由vue编译器提供特殊功能。  
+
+## 1. 定义组件
+### 1.局部定义组件
+如果想局部的定义组件，我们可以使用Vue对象中的`comonent`属性，在其中定义。
+```
+var vm = new Vue({
+    el:'#app',
+    data:{
+        
+    },
+    component:{
+        'ui-button':'<button> a button</button>'
+    }
+})
+```
+然后在页面中调用这个ui-button组件
+```
+<div id="app">
+    <ui-button></ui-button>
+    <ui-button></ui-button>
+    <ui-button></ui-button>
+</div>
+```
+![image_1b1tl7fi81789ietlh915itq0o9.png-2kB][1]    
+
+![image_1b1tl85qdq4govprhg15101ijum.png-6.6kB][2]  
+
+在局部范围内定义的组件，我们只能在这个vue对象中去使用。
+
+### 1.2 全局定义组件
+当我们想全局定义组件的时候，我们就需要使用Vue的component方法了。
+```
+Vue.compinent();
+```
+这个方法有两个参数，第一个参数是组件的名字，第二个参数是一些相关的选项（object）
+```
+ Vue.component('ui-button',{
+    template:'<button>this is a component button</button>'
+});
+```
+使用这个方法定义的组件，我们可以在任意的vue实例中去注册使用它。
+![image_1b1tlk0141uvb1qkr1f2m1cbucj21g.png-6.1kB][3]  
+
+![image_1b1tlkaqqvtm1r9v1552qn016sh1t.png-3.2kB][4]  
+
+### 1.3自定义组件的限制：
+当使用 DOM 作为模版时（例如，将el选项挂载到一个已存在的元素上）, 你会受到 HTML 的一些限制，因为 Vue 只有在浏览器解析和标准化 HTML 后才能获取模版内容。尤其像这些元素 `<ul>` ， `<ol>`， `<table>` ， `<select>` 限制了能被它包裹的元素，`<option>`只能出现在其它元素内部。    
+
+在自定义组件中使用这些受限制的元素时会导致一些问题。  
+
+例如：
+```
+<table>
+    <my-row></my-row>
+</table>
+```
+在这里，自定义组件会被任务是无效内容，在渲染的时候会导致错误。我们可以使用特殊属性`is` 
+```
+<table>
+   <tr is="my-row"></tr>
+</table>
+```
+应当注意，如果您使用来自以下来源之一的字符串模板，这些限制将不适用：  
+
+ - `<script type="text/x-template">`
+ - JavaScript内联模版字符串
+ - .vue 组件
+
+因此，有必要的话请使用字符串模版。
+
+### 1.4 组件中的data
+组件中的data必须是是函数，如果不是函数，浏览器会发出警告。  
+```
+var vm = new Vue({
+    el:'#app',
+    data:{
+
+    }
+});  
+
+Vue.component('my-span',{
+    template:'<span>{{message}}</span>',
+    data:{
+        massage:'hello'
+    }
+})
+```
+![image_1b209gug5bvqv617g61kgj1q0g9.png-6.1kB][5]
+
+为什么必须是一个函数？我们来看下面这个例子：
+```
+<div id="demo">
+    <s-button></s-button>
+    <s-button></s-button>
+    <s-button></s-button>
+</div>
+
+<script>
+    var data = {count:0};
+    Vue.component('s-button',{
+        template:'<button v-on:click="count++">{{count}}</button>',
+        data:function(){
+            return data;
+        }
+    });
+    new Vue({
+        el:'#demo'
+    });
+</script>
+```
+当点击组件中的button的时候，由于是对同一个对象进行的修改，导致所有button中的data同时被修改。  
+
+如果我们换一种写法：
+```
+Vue.component('s-button',{
+    template:'<button v-on:click="count++">{{count}}</button>',
+    data:function(){
+        return {
+            count:0
+        }
+    }
+});
+
+new Vue({
+    el:'#demo'
+});
+```
+这样，每个组件的data就独立了出来，不会相互影响了。  
+
+
+
+  [1]: http://static.zybuluo.com/dilidili/ow7xehgq4ay4us2qrf65l47o/image_1b1tl7fi81789ietlh915itq0o9.png
+  [2]: http://static.zybuluo.com/dilidili/07ab4w19n2m8yvcis66ru4gb/image_1b1tl85qdq4govprhg15101ijum.png
+  [3]: http://static.zybuluo.com/dilidili/5uya0prpbj1zykkymhs0mee3/image_1b1tlk0141uvb1qkr1f2m1cbucj21g.png
+  [4]: http://static.zybuluo.com/dilidili/3t954b3n7z32uafzwrv4wwg5/image_1b1tlkaqqvtm1r9v1552qn016sh1t.png
+  [5]: http://static.zybuluo.com/dilidili/2s753uy3bpx70xt0i5w26nb0/image_1b209gug5bvqv617g61kgj1q0g9.png
+
+
+
+# Vue-组件间的通信
+
+标签（空格分隔）：Vue
+
+---
+>组件意味着协同工作，通常父子组件会是这样的关系：  
+组件 A 在它的模版中使用了组件 B。它们之间必然需要相互通信：父组件要给子组件传递数据，子组件需要将它内部发生的事情告知给父组件。  
+
+>然而，在一个良好定义的接口中尽可能将父子组件解耦是很重要的。这保证了每个组件可以在相对隔离的环境中书写和理解，也大幅提高了组件的可维护性和可重用性。  
+
+>在 Vue.js 中，父子组件的关系可以总结为 `props-down`, `events-up` 。父组件通过 `props` 向下传递数据给子组件，子组件通过 `events` 给父组件发送消息。  
+
+## 1. 使用属性传递数据
+每个组件实例都有自己独立的作用域，这意味着你不能并且不该在子组件的模板里直接引用父组件的数据。由父组件向子组件传递数据可以通过 `prop` 来完成。  
+
+属性就是用来从父组件传递信息的自定义属性。子组件需要显式地用 `props` 选项 来明确声明它要接收的属性：  
+```
+<div id="app">
+    <hello-span message="hello Vue!"></hello-span>
+</div>
+<script>
+    Vue.component('hello-span',{
+        template:'<span>{{message}}</span>',
+        props:['message']
+    });
+
+    new Vue({
+        el:"#app"
+    })
+</script>
+```
+注意：HTML属性是不区分大小写的，所以当使用非模板字符串的时候，需要使用短横分割命名标签名，使用驼峰命名法命名属性名
+```
+<div id="app">
+    <hello-span my-mes="hello Vue!"></hello-span>
+</div>
+<script>
+    Vue.component('hello-span',{
+        template:'<span>{{myMes}}</span>',
+        props:['myMes']
+    });
+
+    new Vue({
+        el:"#app"
+    })
+</script>
+```
+如果不符合要求，浏览器会报错。
+
+## 2.父组件传递给子组件
+我们可以使用v-bind方法将组件的属性绑定到父组件的数据，这样，当父组件的数据发生变化的时候，就会传递给子组件。  
+```
+ <div id="app2">
+   <!-- 可以使用v-bind方法将组件的属性绑定到父组件的数据，这样，当父组件的数据发生变化的时候，就会传递给子组件-->
+    {{message}}
+    <br>
+    这里是子组件1
+    <br>
+    <child-com v-bind:message="message"></child-com>
+
+    这里是子组件2
+    <br>
+    <child-com v-bind:options-obj="optionsObj"></child-com>
+    这里是子组件3
+    <br>
+    <child-com></child-com>
+</div>
+
+
+<script>
+    Vue.component('child-com',{
+        //声明props
+        props:["message",'optionsObj'],
+        //设置模板
+        template:'<p> hello 父组件信息{{message}} + 子组件的信息{{optionsObj}} </p>'
+    });
+    new Vue({
+       el:'#app2',
+        data:{
+           message:'HELLO VUE',
+            "optionsObj":[1,2,3]
+        }
+    });
+</script>
+```
+实现的效果是这样的  
+![image_1b2icd6bnf52149s9n4dfc1499.png-8kB][6]
+在页面中的结构如下
+![image_1b2ice0pdrj5i6cbg71h88b47m.png-17kB][7]  
+
+
+## 3.单向数据流
+在Vue的组件中，所有数据都是单向的。父组件的属性变化时，会传递给子组件。但并不会反向传递。这就避免了子组件不小心改变父组件状态的情况，使得应用的数据流更容易推理，而且，每次更新父组件，子组件的所有属性值都会被更新成最新值。
+**不能在子组件内改变属性的值，否则控制台会报错**
+
+
+  [6]: http://static.zybuluo.com/dilidili/946q5661gp2cjl1coseyeorf/image_1b2icd6bnf52149s9n4dfc1499.png
+  [7]: http://static.zybuluo.com/dilidili/emhz1ez5blwppwfjqpeoplao/image_1b2ice0pdrj5i6cbg71h88b47m.png
 
