@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>weibo</title>
+    <style>
+        .grey{
+            background: #eee;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <input type="text" v-model="search" @input="searchFn()" @keydown.down="downFn()" @keydown.up="upFn()">
+    <ul searchData.length !== 0>
+        <li v-for="value in searchData" :class="{grey:this.nowIndex == $index}">{{$index}} + {{value}}</li>
+    </ul>
+    <p v-show="searchData.length === 0">暂无数据</p>
+
+</div>
+
+<script src="js/vue.js"></script>
+<script src="../vue-resource.js"></script>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+            searchData:[],
+            search:'',
+            nowIndex:-1
+        },
+        methods:{
+            searchFn:function(){
+                this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+                    wd:this.search
+                },{
+                    jsonp:'cb'
+                }).then(function(re){
+                    this.searchData = re.data.s;
+                },function(re){
+                    alert(re.status);
+                });
+            },
+            downFn:function(){
+                this.nowIndex ++;
+                if(this.nowIndex >= this.searchData.length){
+                    this.nowIndex = -1;
+                }
+                console.log(this.nowIndex);
+            },
+            upFn:function(){
+               this.nowIndex --;
+               if(this.nowIndex <=-1){
+                   this.nowIndex =this.searchData.length-1;
+               }
+            }
+        }
+    })
+</script>
+</body>
+</html>
