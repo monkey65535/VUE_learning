@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>class-对象</title>
+    <style>
+        .red{  color:red;  }
+        .blue{  background: blue;  }
+    </style>
+</head>
+<body>
+<!--<div id="box"  :class="{red:red,blue:b}">AAAAA</div>-->
+<div id="box"  :class="classJson">AAAAA</div>
+
+<script src="../js/vue.js"></script>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+            classJson:{
+                red:true,
+                blue:true
+            }
+        }
+    });
+</script>
+<script src="../js/vue.js"></script>
+<script>
+    new Vue({
+        el:'#box',
+        data:{
+            red:'red',
+            b:true
+        }
+    });
+</script>
+
+</body>
+</html>

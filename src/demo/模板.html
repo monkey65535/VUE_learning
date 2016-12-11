@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>模板</title>
+</head>
+<body>
+<div id="box">
+    <input type="text" v-model="msg">
+    <hr>
+    <p>{{msg}}</p>
+    <p>{{*msg}}</p>
+</div>
+<script src="../js/vue.js"></script>
+<script>
+    new Vue({
+        el: '#box',
+        data:{
+            msg:'ACS'
+        }
+    })
+</script>
+</body>
+</html>
