@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+</head>
+
+<body>
+    <div id="box">
+        <input type="button" name="" value="aaa组件" @click="a='aaa'">
+        <input type="button" name="" value="bbb组件" @click="a='bbb'">
+        <component :is="a"></component>
+    </div>
+    
+    <script src="../js/vue.js"></script>
+    <script>
+      //动态组件-有点想选项卡
+        var Vm = new Vue({
+            el:'#box',
+            data:{
+                a:'aaa'
+            },
+            components:{
+                'aaa':{
+                    template:'<h2>M</h2>'
+                },
+                'bbb':{
+                    template:'<h3>L</h3>'
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

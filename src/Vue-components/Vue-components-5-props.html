@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        {{a}}
+        <!--组件-->
+        <father-a></father-a>
+    </div>
+    <script>
+      //props  父组件传递数据给子组件
+        var vm = new Vue({
+            el:'#box',
+            data:{
+                a:'this is a'
+            },
+            components:{
+                'father-a':{
+                    template:`<h4>M + {{fatherMes}}<h4> <bbb :mes="fatherMes" :my-mes="fatherMes2"></bbb>`,
+                    // 如果在html中使用横杠的命名法：my-message 那么在props中要是用驼峰命名法
+                    data:function(){
+                        return {
+                            fatherMes:'father-work',
+                            fatherMes2:22222
+                        }
+                    },
+                    components:{
+                        'bbb':{
+                            template:'<h5>{{child}} ===>> {{mes}} ====>> {{myMes}}</h5>',
+                            // props:['mes','myMes'],
+                            // props 第二种调用方式：
+                            props:{
+                                mes:String,
+                                myMes:Number 
+                            },
+                            //固定数据类型，如果数据类型不对，那么会调用失败 控制台会报错
+                            data:function(){
+                                return {
+                                    child:'aaa'
+                                }
+                            }
+                        }
+                    }  
+                }
+            }
+        });
+
+
+    </script>
+</body>
+
+</html>

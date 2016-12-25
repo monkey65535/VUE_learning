@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+</head>
+
+<body>
+    <div id="box">
+        <aaa></aaa>
+    </div>
+    
+    <script src="../js/vue.js"></script>
+    <script>
+       //3-定义局部组件
+       var AvUE = Vue.extend({
+           template:'<h3>{{zoom}}</h3>',
+           data(){
+               return {
+                   zoom:12312312
+               }
+           }
+       })
+
+        var Vm = new Vue({
+            el:'#box',
+            data:{
+
+            },
+            components:{
+                'aaa':AvUE
+            }
+        })
+    </script>
+</body>
+
+</html>
