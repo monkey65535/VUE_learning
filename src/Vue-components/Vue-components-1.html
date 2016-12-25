@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Vue-components</title>
 </head>
-<body>
-    
 
-    
+<body>
+    <div id="box">
+        <aaa></aaa>
+    </div>
     <script src="../js/vue.js"></script>
+    <script>
+        // 1-使用Extent来定义组件  定义全局组件
+
+        var Avue = Vue.extend({
+            template:`<h3>我是标题三</h3>`
+        })
+        
+        Vue.component('aaa',Avue);
+        var Vm = new Vue({
+            el:'#box',
+            data:{
+
+            }
+        })
+    </script>
 </body>
+
 </html>

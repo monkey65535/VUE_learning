@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+</head>
+
+<body>
+    <div id="box">
+        <aaa></aaa>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        // 2- 使用component来定义组件  全局组件  注意，组件中的data必须是一个函数，这个函数的返回值必须是一个对象！否则控制台会报错
+        Vue.component('aaa',{
+            template:'<h3>我是{{zoom}}定义的组件</h3>',
+            data:()=>{
+                return {
+                    zoom:'component'
+                }
+            }
+        })
+        var Vm = new Vue({
+            el:'#box',
+            data:{
+
+            }
+        })
+    </script>
+</body>
+
+</html>
