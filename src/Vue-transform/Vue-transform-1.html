@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+    <link rel="stylesheet" href="../css/animate.css">
+    <style>
+        #div1 {
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+        
+        .fade-transition {
+            transition: .2s all ease;
+        }
+        
+        .fade-enter {
+            opacity: 0;
+        }
+        
+        .fade-leave {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+        <input type="button" name="" value="按钮" @click="move">
+        <div id="div1" v-show="change" transition="fade"></div>
+    </div>
+    <script src="../js/vue.js"></script>
+    <script>
+        new Vue({
+            el:'#box',
+            data:{
+                change:true
+            },
+            methods:{
+                move(){
+                    this.change = !this.change;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

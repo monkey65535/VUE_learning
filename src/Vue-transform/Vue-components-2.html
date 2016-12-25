@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+    <link rel="stylesheet" href="../css/animate.css">
+    <style>
+        #div1{
+            width: 100px;
+            height: 100px;
+            background: red;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="button" name="" value="按钮" @click="move">
+        <div id="div1" class="animated" v-show="change" transition="bounce"></div>
+    </div>
+
+    <script src="../js/vue.js"></script>
+    <script>
+        new Vue({
+            el:'#box',
+            data:{
+                change:true
+            },
+            methods:{
+                move(){
+                    this.change = !this.change;
+                }
+            },
+            transitions:{
+                bounce:{
+                    enterClass:'zoomInLeft',
+                    leaveClass:'zoomOutDown'
+                }
+            }
+        });
+    </script>
+</body>
+</html>
