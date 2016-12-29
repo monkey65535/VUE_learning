@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <father-com>
+            <ul slot="ulS">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+            </ul>
+            <ol slot="olS">
+                <li>1</li>
+                <li>2</li>
+                <li>3</li>
+            </ol>
+
+        </father-com>
+    </div>
+    <script>
+    //slot 插槽 占位符，可以让组建的HTML中的内容不被Template覆盖的显示出来
+    //给slot添加name可以展示不同的内容，需要在对应内容的容器添加slot属性，必须与template中的slot中的name对应
+        var Vm = new Vue({
+            el: '#box',
+            data: {
+                a: 10000
+            },
+            components: {
+                'father-com': {
+                    template: `<h3>{{aa}} ==> {{childrenData}}</h3>
+                       <slot name="olS"></slot>  
+                       <slot name="ulS"></slot>`,
+                    data() {
+                        return {
+                            aa: '这里是父组建',
+                            aId: 10,
+                            childrenData:"暂无数据"
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
