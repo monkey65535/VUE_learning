@@ -47,9 +47,13 @@
     </template>
     <template id="detail">
         
-        <!--$route.params 可以获取在路由中传递的数据 -->
+        <!--$route.params 可以获取在url中传递的参数 -->
+        <!--$route.path 可以输出当前的路径-->
+        <!--$route.query 可以获取当前url中传递的数据-->
 
         <p>{{$route.params |json}}</p>
+        <p>{{$route.path}}</p>
+        <p>{{$route.query |json}}</p>
         <p>这里是新闻{{$route.params.id}}</p>
     </template>
     <script>
