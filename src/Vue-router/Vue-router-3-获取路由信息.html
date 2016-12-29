@@ -39,7 +39,18 @@
     </template>
     <template id="news">
         <h3>我是新闻</h3>
+        <div>
+            <a v-link="{path:'/news/detail/001'}">新闻001</a>
+			<a v-link="{path:'/news/detail/002'}">新闻002</a>
+        </div>
+         <router-view></router-view>
+    </template>
+    <template id="detail">
         
+        <!--$route.params 可以获取在路由中传递的数据 -->
+
+        <p>{{$route.params |json}}</p>
+        <p>这里是新闻{{$route.params.id}}</p>
     </template>
     <script>
         //1.准备一个根组建（App）
@@ -53,6 +64,9 @@
 			template: '#news'
 		});
 
+        var Detail = Vue.extend({
+            template:'#detail'
+        })
         //3. 准备路由
         var router = new VueRouter();
 
@@ -75,7 +89,12 @@
                 }
             },
             'news': {
-                component: News
+                component: News,
+                subRoutes:{
+                    '/detail/:id':{
+                        component:Detail
+                    }
+                }
             }
         })
 
