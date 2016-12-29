@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-router</title>
+    <script src="../js/vue.js"></script>
+    <script src='../js/vue-router.js'></script>
+    <style>
+    /*使用这个class来设置被选中项目*/
+        .v-link-active{
+            font-size: 24px;
+            color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Vue-router  -->
+    <div id="box">
+      <ul>
+          <li><a v-link="{path:'/home'}">home</a></li>
+          <li><a v-link="{path:'/news'}">news</a></li>
+      </ul>
+      <div>
+          <router-view></router-view>
+      </div>
+    </div>
+    <script>
+        //1.准备一个根组建（App）
+        var App = Vue.extend();
+        //2.准备好Home，News组建
+        var Home = Vue.extend({
+            template:'<h3>我是Home</h3>'
+        });
+        var News = Vue.extend({
+            template:'<h3>我是News</h3>'
+        });
+
+        //3. 准备路由
+        var router = new VueRouter();
+
+        //4 关联组建
+        router.map({
+            'home':{
+                component:Home
+            },
+            'news':{
+                component:News
+            }
+        })
+        //5 启动路由 绑定根组建和容器
+        router.start(App,'#box');
+
+        //6.设置默认跳转
+        router.redirect({
+            '/':'./home'
+        })
+
+    </script>
+</body>
+
+</html>
