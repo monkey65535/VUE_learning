@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Vue-components</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        {{a}}
+        <!--组件-->
+        <father-com></father-com>
+    </div>
+    <script>
+    //父组建使用props和v-bind来传递数据给子组件
+    //子组件使用Vm.$emit和v-on来将数据发送给父组建
+
+
+        var Vm = new Vue({
+            el: '#box',
+            data: {
+                a: 10000
+            },
+            components: {
+                'father-com': {
+                    template: `<h3>{{aa}} ==> {{childrenData}}</h3>
+               <child-com :my-id="aId" @child-data="childFn"><child-com>`,
+               //父组建的v-on要绑定在子组件调用的地方
+                    data() {
+                        return {
+                            aa: '这里是父组建',
+                            aId: 10,
+                            childrenData:"暂无数据"
+                        }
+                    },
+                    components: {
+                        'child-com': {
+                            template: '<p>{{bbb}},==>> 来自父组建的数据：{{myId}}</p> <input type="button" name="" value=" send" @click="sendFn">',
+                            data() {
+                                return {
+                                    bbb: '这里是子组件的数据',
+                                    bId: 20,
+                                    send:'这里是子组件的数据'
+                                }
+                            },
+                            props:['myId'],
+                            methods:{
+                                sendFn:function(){
+                                    this.$emit('child-data',this.send);
+                                }
+                            }
+                        }
+                    },
+                    methods:{
+                        childFn:function(re){
+                            this.childrenData = re;
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
