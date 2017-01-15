@@ -1,26 +1,18 @@
 <template>
-    <h1>hello VUE!</h1>
-    <h2 @click="change">{{msg}}</h2>
-    <my-muem></my-muem>
+    <div id="app">
+        <h1>Vue-loader + Vue-router</h1>
+        <div>
+            <a v-link="{path:'./home'}">主页</a>
+            <a v-link="{path:'./news'}">新闻</a>
+        </div>
+        <router-view>
+            
+        </router-view>
+    </div>
 </template>
 
 <script>
-    import Muem from './components/Muem.vue';
-    export default {
-        data(){
-            return {
-                msg:'welcome Vue;'
-            }
-        },
-        methods:{
-            change:function(){
-                this.msg = 'hahha';
-            }
-        },
-        components:{
-            'my-muem':Muem
-        }
-    }
+    
 </script>
 
 <style>
