@@ -7,9 +7,15 @@ module.exports = {
         filename:'bundle.js'
     },
     module:{
-        loaders:{
-            {test:/\.vue$/,loader:'vue'},
-            {test:/\.js$/,loader:'babel',exclude:/node_modules/}
-        }
+        // 配置loader
+        loaders:[
+            {test:/\.vue$/, loader:'vue'},
+			{test:/\.js$/, loader:'babel', exclude:/node_modules/}
+        ]
+    },
+    // 配置babel
+    babel:{
+        presets:['es2015'],
+		plugins:['transform-runtime']
     }
 };
