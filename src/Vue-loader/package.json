@@ -4,7 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --port 8082"
+    "dev": "webpack-dev-server --inline --hot"
   },
   "keywords": [],
   "author": "",
