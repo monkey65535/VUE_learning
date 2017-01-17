@@ -8,15 +8,25 @@
     <!--关于组件的定义-->
     <div id="box">
         <p>{{message}}</p>
-        <my-temp></my-temp>
+        <my-home></my-home>
+        <aaa></aaa>
     </div>
     <script src="vue.js"></script>
     <script>
-        
+        // 在Vue2.0中不推荐使用Vue.extend()方法定义全局组件，可以继续使用Vue.component()方法定义全局组件
+        // Vue2.0中新增一个组件的简洁定义方式
+        const Home = {
+            template:'<h3>这里是直接声明的组件<h3>'
+        }
+        Vue.component('my-home',Home);
+        // 可以直接声明一个符合条件的对象，然后使用Vue.component()或者在Vue的实例中注册
         var vm = new Vue({
             el:'#box',
             data:{
                 message:'welcome Vue 2.0'
+            },
+            components:{
+                'aaa':Home
             }
         })
     </script>

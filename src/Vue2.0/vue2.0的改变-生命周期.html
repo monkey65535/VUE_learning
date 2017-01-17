@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0的改变</title>
+</head>
+<body>
+    <!--关于生命周期的变化-->
+    <div id="box">
+        <p>{{message}}</p>
+        <my-home></my-home>
+        <aaa></aaa>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+    // 之前:
+	// 	init	
+	// 	created
+	// 	beforeCompile
+	// 	compiled
+	// 	ready		√	->     mounted
+	// 	beforeDestroy	
+	// 	destroyed
+	// 现在:
+	// 	beforeCreate	组件实例刚刚被创建,属性都没有
+	// 	created	实例已经创建完成，属性已经绑定
+	// 	beforeMount	模板编译之前 ==> ready
+	// 	mounted	模板编译之后，代替之前ready  *
+	// 	beforeUpdate	组件更新之前
+	// 	updated	组件更新完毕	*
+	// 	beforeDestroy	组件销毁前
+	// 	destroyed	组件销毁后
+        var vm = new Vue({
+            el:'#box',
+            data:{
+                message:'welcome Vue 2.0'
+            }
+        })
+    </script>
+</body>
+</html>
