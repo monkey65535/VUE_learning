@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0的改变</title>
+</head>
+<body>
+    <!--从Vue2.0开始，不支持组件模板中的代码片段-->
+    <div id="box">
+        <p>{{message}}</p>
+        <my-temp></my-temp>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+        /*在Vue2.0的组件模板中，必须要有一个根元素来包括住整个模板，根元素不允许有兄弟元素！*/
+        Vue.component('my-temp',{
+            // template:'<h4>this is com</h4><span>aaaa</span>' 这么写会报错
+            template:'<h4>this is com <span>aaaa</span></h4>'
+        })
+        var vm = new Vue({
+            el:'#box',
+            data:{
+                message:'welcome Vue 2.0'
+            }
+        })
+    </script>
+</body>
+</html>
