@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0的改变</title>
+</head>
+<body>
+    <!--关于自定义键盘事件-->
+    <div id="box">
+        <input type="text" name="" @keydown.ctrl="change">
+    </div>
+    <script src="vue.js"></script>
+    <script>
+    // 在Vue1.0中定义键盘事件方法为
+    // Vue.directive('on').keyCodes.f1=17;	
+    // 在Vue2.0中,定义键盘事件的方法改为
+    // Vue.config.keyCodes.ctrl = 17;
+    Vue.config.keyCodes.ctrl = 17;
+        var vm = new Vue({
+            el:'#box',
+            data:{
+            },
+            methods:{
+                change(){
+                    alert(1);
+                }
+            }
+        })
+    </script>
+</body>
+</html>

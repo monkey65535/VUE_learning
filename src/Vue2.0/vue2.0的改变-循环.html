@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0的改变</title>
+</head>
+<body>
+    <!--关于循环的变化-->
+    <div id="box">
+        <input type="button" name="" value="添加" @click="addFn">
+        <ul>
+            <li v-for="(val,index) in message">{{val}} + {{index}}</li>
+        </ul>
+        <ul>
+            <li v-for="(val,key) in list">{{key}}+{{val}}</li>
+        </ul>
+    </div>
+    <script src="vue.js"></script>
+    <script>
+    // 在Vue1.0中，想添加重复的数据需要使用track-by属性来绑定$index
+    // 在Vue2.0中，默认允许添加重复的数据
+    // 在Vue2.0中，取消了隐式变量（例如$index），如果需要使用index则需要在v-for中声明
+    // array.forEach(function(element,i){})
+    // 循环中的track-by="$index" 变成了 :key="index"
+        var vm = new Vue({
+            el:'#box',
+            data:{
+                message:['aaa','bbb','ccc','ddd'],
+                list:{
+                    a:'apple',
+                    b:'banner',
+                    c:'red'
+                }
+            },
+            methods:{
+                addFn(){
+                    this.message.push('eeee');
+                }
+            }
+        })
+    </script>
+</body>
+</html>
