@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0-组件间的通信</title>
+</head>
+<body>
+    <!--子组件获取父组件的数据-->
+    <div id="box">
+        <div>{{mes}}</div>
+        <p>这是父级的数据=》{{gaveData.data1}}</p>
+        <Fcomponent :father-data="gaveData"></Fcomponent>
+    </div>
+    
+    <script src="vue.js"></script>
+    <script>
+        // 在Vue1.0中，子组件可以更改父组件传递的数据，而且使用sync可以同步更改
+        // 在Vue2.0中，子组件不允许直接赋值给父组件传递过来的数据。如果想实现这样的功能，可以使用:
+        // 1.可以利用对象是引用类型的特性，给每次传递一个对象数据给子组件，那么子组件对对象的某个值进行修改的时候，父组件就会同步进行修改
+        // 2.如果不需要同步更改，可以在mounted的时候执行一个函数，将接收到的值赋给子组件的数据，这样在更改子组件的接受数据的时候并不会更改父组件的数据
+        const Vm = new Vue({
+            el:'#box',
+            data:{
+                mes:'aaa',
+                fdata:'我是父组件的数据',
+                gaveData:{
+                    data1:'obj中的数据'
+                }
+            },
+            components:{
+                'Fcomponent':{
+                    template:'<div><h3>{{hMes}} </h3><strong> {{fatherData.data1}}</strong> <input type="button" name="" value="change" @click="changeFn"> </div> ',
+                    data:function(){
+                        return {
+                            hMes:"aaaaaaaa"
+                        }
+                    },
+                    props:['fatherData'],
+                    methods:{
+                        changeFn(){
+                           this.fatherData.data1 = "被更改了"
+                        }
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

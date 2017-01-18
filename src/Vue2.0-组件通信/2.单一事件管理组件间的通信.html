@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0-组件间的通信</title>
+</head>
+<body>
+    <!--单一事件管理组件间的通信-->
+    <div id="box">
+        <com-a></com-a>
+        <com-b></com-b>
+        <com-c></com-c>
+    </div>
+    
+    <script src="vue.js"></script>
+    <script>
+    // 1.准备一个空的Vue实例对象
+    var Event = new Vue();
+    // 2.在组件的绑定事件中使用$.emit将数据传递给这个空的Vue实例对像
+    // 3.在接受数据的组件mounted的时候，使用空Vue实例对象身上的$.on方法获取数据
+        const Vm = new Vue({
+            el:'#box',
+            components:{
+                'com-a':{
+                    template:`<div>
+                        <span>我是A组件 </span>
+                        <em>{{ a }}</em>
+                        <input type="button" name="" value="把A的数据给C" @click="send">
+                    </div>`,
+                    data(){
+                        return {
+                            a:'我是A的数据'
+                        }
+                    },
+                    methods:{
+                        send(){
+                            Event.$emit('a-mes',this.a);
+                        }
+                    }
+                },
+                'com-b':{
+                     template:`<div>
+                        <span>我是B组件 </span>
+                        <em>{{ a }}</em>
+                        <input type="button" name="" value="把B的数据给C" @click="send">
+                     </div>`,
+                     data(){
+                         return {
+                             a:'我是B的数据'
+                         }
+                     },
+                     methods:{
+                         send(){
+                             Event.$emit('b-mes',this.a);
+                         }
+                     }
+                },
+                'com-c':{
+                     template:`<div>
+                        <span>我是C组件</span>
+                        <p>我是A传递的数据-->{{a}}</p>
+                        <p>我是B传递的数据-->{{b}}</p>
+                     </div>`,
+                     data(){
+                         return {
+                             a:'',
+                             b:''
+                         }
+                     },
+                     mounted:function(){
+                         Event.$on('a-mes',function(re){
+                             this.a = re;
+                         }.bind(this));
+                         Event.$on('b-mes',function(re){
+                             this.b = re;
+                         }.bind(this));
+
+                     }
+                }
+            }
+        })
+    </script>
+</body>
+</html>
