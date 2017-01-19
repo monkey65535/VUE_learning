@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0-过渡</title>
+    <style>
+        .box-siz{
+            width: 100px;
+            height: 100px;
+            background: royalblue;
+        }
+        .fade-enter-active, .fade-leave-active{
+            transition: 1s all ease;
+        }
+        .fade-enter-active{
+            opacity:1;
+            width:300px;
+            height:300px;
+        }
+        .fade-leave-active{
+            opacity:0;
+            width:100px;
+            height:100px;
+        }
+
+        .fade-enter,.fade-leave{
+            opacity:0;
+            width:100px;
+            height:100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="button" name="" value="点击显示隐藏" @click="show = !show">
+        <transition name="fade" 
+        @before-enter="beforeEnter" 
+        @enter="Enter" 
+        @after-enter="afterEnter"  
+        @before-leave="beforeLeave"
+        @leave="Leave" 
+        @after-leave="afterLeave"  
+        >
+            <div class="box-siz" v-show="show"></div>
+        </transition>
+    </div>
+    
+
+    <!--在VUE1中，transition是通过属性来做变化-->
+    <!--在Vue2中，transition成为了组件-->
+    <script src="vue.js"></script>
+    <script>
+        var Vm = new Vue({
+            el:'#box',
+            data:{
+                show:false
+            },
+            methods:{
+                beforeEnter(el){
+                    console.log(el + "动画进入之前");
+                },
+                Enter(el){
+                    console.log(el + "动画进入");
+                },
+                afterEnter(el){
+                    console.log(el + "动画进入之后");
+                },
+                beforeLeave(el){
+                    console.log(el + "动画离开之前");
+                },
+                Leave(el){
+                    console.log(el + "动画离开");
+                },
+                afterLeave(el){
+                    console.log(el + "动画离开之后");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

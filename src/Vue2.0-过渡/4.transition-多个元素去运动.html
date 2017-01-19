@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0-过渡</title>
+    <link rel="stylesheet" href="animate.css">
+    <style>
+        .box-siz{
+            width: 100px;
+            height: 100px;
+            background: royalblue;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="button" name="" value="点击显示隐藏" @click="show = !show">
+        <transition-group enter-active-class="bounceInLeft" leave-active-class="bounceOutRight">
+            <div class="box-siz animated" v-show="show" :key="1"></div>
+            <div class="box-siz animated" v-show="show" :key="2"></div>
+            <div class="box-siz animated" v-show="show" :key="3"></div>
+        </transition-group>
+    </div>
+    <!--transition组件只能让第一层子元素去运动-->
+
+    <script src="vue.js"></script>
+    <script>
+        var Vm = new Vue({
+            el:'#box',
+            data:{
+                show:false
+            }
+        });
+    </script>
+</body>
+</html>
