@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue2.0-过渡</title>
+    <link rel="stylesheet" href="animate.css">
+    <style>
+        .box-siz{
+            width: 100px;
+            height: 100px;
+            background: royalblue;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="text" name="" v-model="show">
+        <transition-group enter-active-class="bounceInLeft" leave-active-class="bounceOutRight">
+            <div class="box-siz animated" v-show="show" v-for="(val,index) in lists" :key="index">{{val}}</div>
+        </transition-group>
+    </div>
+    <!--transition组件只能让第一层子元素去运动-->
+
+    <script src="vue.js"></script>
+    <script>
+        var Vm = new Vue({
+            el:'#box',
+            data:{
+                show:'',
+                list:['apple','banner','picker','dadadev']
+            },
+            computed:{
+                lists(){
+                    let arr = [];
+                    this.list.forEach(function(val,i){
+                        if(val.indexOf(this.show) !== -1){
+                            arr.push(val);
+                        }
+                    }.bind(this));
+                    return arr;
+                }
+            }
+        });
+    </script>
+</body>
+</html>
