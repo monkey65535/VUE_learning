@@ -1,0 +1,44 @@
+﻿<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<link href="src/style/weibo.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="znsArea">
+<!--留言-->
+     <div class="takeComment">
+        <textarea name="textarea" class="takeTextField" id="tijiaoText" placeholder="输入新的内容" @keydown.enter="newSubmit" v-model="newTextArea"></textarea>
+        <div class="takeSbmComment">
+            <input type="button" id="btn1" class="inputs" value="" @click="newSubmit"/>
+            <span>(可按 Enter 回复)</span>
+        </div>
+    </div>
+<!--已留-->
+    <div class="commentOn">
+        <div class="messList" id="div1" style="height:502px">
+            <div class="none" style="text-align: center;height: 24px; line-height: 24px; background: #ffd887;" v-if="weiboData.length == 0">暂无回复</div>
+        	<div class="reply" v-else="weiboData.length == 0" v-for="value in weiboData" v-clock>
+                <p class="replyContent">{{value.content}}</p>
+                <p class="operation">
+                    <span class="replyTime">{{value.time | formatTime}}</span>
+                    <span class="handle">
+                    	<a href="javascript:;" class="top" @click="accFn(value.id)">{{value.acc}}</a>
+                        <a href="javascript:;" class="down_icon" @click="refFn(value.id)">{{value.ref}}</a>
+                        <a href="javascript:;" data-id="{{value.id}}" class="cut" @click="deleteFn(value.id)">删除</a>
+                    </span>
+                </p>
+            </div>
+            
+        </div>
+        <div class="page" id="page">
+            <a href="javascript:;" v-for="n in pageListNum" data-pagenum = "{{n}}" @click="changePage(n)">{{n+1}}</a>
+        </div>
+    </div>
+</div>
+<script src="src/js/vue.js"></script>
+<script src="src/js/vue-resource.js"></script>
+<script src="src/js/app.js"></script>
+</body>
+</html>
